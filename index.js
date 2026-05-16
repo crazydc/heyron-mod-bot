@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Events, EmbedBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, Events, EmbedBuilder, REST, Routes } = require('discord.js');
 require('dotenv').config();
 
 const client = new Client({
@@ -35,6 +35,29 @@ const responses = {
   },
 };
 
+const commands = [
+  { name: 'acc', description: 'How to get a Heyron account' },
+  { name: 'ticket', description: 'How to log a support ticket' },
+  { name: 'tut', description: 'List of tutorials and guides' },
+  { name: 'ping', description: 'Check if bot is alive' },
+];
+
+// Register commands on startup
+const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+
+async function registerCommands() {
+  try {
+    console.log('Registering slash commands...');
+    await rest.put(
+      Routes.applicationCommands(process.env.CLIENT_ID),
+      { body: commands }
+    );
+    console.log('✅ Commands registered!');
+  } catch (error) {
+    console.error('Error registering commands:', error);
+  }
+}
+
 // Handle slash commands
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
@@ -56,8 +79,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-client.on(Events.ClientReady, () => {
+client.on(Events.ClientReady, async () => {
   console.log(`🤖 Heyron Bot logged in as ${client.user.tag}`);
+  await registerCommands();
 });
 
 client.login(process.env.DISCORD_TOKEN);
