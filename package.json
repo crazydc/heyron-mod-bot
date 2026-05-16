@@ -1,0 +1,14 @@
+{
+  "name": "heyron-mod-bot",
+  "version": "1.0.0",
+  "description": "Heyron Discord Moderator Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "register": "node register-commands.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.0",
+    "dotenv": "^16.3.1"
+  }
+}
