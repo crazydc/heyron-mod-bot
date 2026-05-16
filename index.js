@@ -10,6 +10,12 @@ const client = new Client({
   ],
 });
 
+// Role IDs that are allowed to use bot commands
+// Add your mod role IDs here
+const ALLOWED_ROLES = [
+  '1240723235', // Replace with your actual mod role IDs
+];
+
 // Command responses with clickable links
 const responses = {
   acc: {
@@ -44,6 +50,13 @@ const commands = [
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 
+// Check if user has allowed role
+function hasAllowedRole(member) {
+  if (!member.roles) return false;
+  const userRoles = member.roles.cache.map(r => r.id);
+  return userRoles.some(roleId => ALLOWED_ROLES.includes(roleId));
+}
+
 async function registerCommands() {
   try {
     console.log('Registering slash commands...');
@@ -59,6 +72,13 @@ async function registerCommands() {
 
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
+
+  // Check if user has allowed role
+  const member = interaction.member;
+  if (!hasAllowedRole(member)) {
+    await interaction.reply({ content: '❌ You don\'t have permission to use this command.', ephemeral: true });
+    return;
+  }
 
   const { commandName } = interaction;
   const response = responses[commandName];
