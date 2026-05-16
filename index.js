@@ -13,7 +13,7 @@ const client = new Client({
 // Role IDs that are allowed to use bot commands
 // Add your mod role IDs here
 const ALLOWED_ROLES = [
-  '1240723235', // Replace with your actual mod role IDs
+  '1505211482240188426', // Replace with your actual mod role IDs
 ];
 
 // Command responses with clickable links
