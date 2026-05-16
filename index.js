@@ -10,23 +10,23 @@ const client = new Client({
   ],
 });
 
-// Command responses
+// Command responses with clickable links
 const responses = {
   acc: {
     title: '📋 How to Get an Account',
-    description: 'To get a Heyron account, visit **heyron.ai/signup**\n\nIf you need help, contact a mod in #support.',
+    description: 'To get a Heyron account, visit [heyron.ai/signup](https://heyron.ai/signup)\n\nIf you need help, contact a mod in #support.',
   },
   ticket: {
     title: '🎫 How to Log a Ticket',
-    description: 'To log a support ticket:\n• Go to **heyron.ai/support**\n• Or click "New Ticket" in your Heyron dashboard\n\nWe typically respond within 24 hours.',
+    description: 'To log a support ticket:\n• Go to [heyron.ai/support](https://heyron.ai/support)\n• Or click "New Ticket" in your Heyron dashboard\n\nWe typically respond within 24 hours.',
   },
   tut: {
     title: '📚 Tutorials',
     description: 'Check out our documentation:',
     fields: [
-      { name: 'Getting Started', value: 'heyron.ai/docs/start' },
-      { name: 'API Setup', value: 'heyron.ai/docs/api' },
-      { name: 'Troubleshooting', value: 'heyron.ai/docs/troubleshoot' },
+      { name: 'Getting Started', value: '[heyron.ai/docs/start](https://heyron.ai/docs/start)' },
+      { name: 'API Setup', value: '[heyron.ai/docs/api](https://heyron.ai/docs/api)' },
+      { name: 'Troubleshooting', value: '[heyron.ai/docs/troubleshoot](https://heyron.ai/docs/troubleshoot)' },
     ],
   },
   ping: {
@@ -42,7 +42,6 @@ const commands = [
   { name: 'ping', description: 'Check if bot is alive' },
 ];
 
-// Register commands on startup
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 
 async function registerCommands() {
@@ -58,7 +57,6 @@ async function registerCommands() {
   }
 }
 
-// Handle slash commands
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
